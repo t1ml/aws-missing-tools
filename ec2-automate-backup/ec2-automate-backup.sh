@@ -57,7 +57,7 @@ create_EBS_Snapshot_Tags() {
   snapshot_tags=""
   #if $name_tag_create is true then append ec2ab_${ebs_selected}_$current_date to the variable $snapshot_tags
   if $name_tag_create; then
-    snapshot_tags="$snapshot_tags --tag Name=ec2ab_${ebs_selected}_$current_date"
+    snapshot_tags="$snapshot_tags --tag Name=ec2ab_${component}_${ebs_selected}_$current_date"
   fi
   #if $hostname_tag_create is true then append --tag InitiatingHost=$(hostname -f) to the variable $snapshot_tags
   if $hostname_tag_create; then
@@ -157,13 +157,14 @@ user_tags=false
 purge_snapshots=false
 #handles options processing
 
-while getopts :s:c:r:v:t:k:pnhu opt; do
+while getopts :s:c:r:v:t:m:k:pnhu opt; do
   case $opt in
     s) selection_method="$OPTARG" ;;
     c) cron_primer="$OPTARG" ;;
     r) region="$OPTARG" ;;
     v) volumeid="$OPTARG" ;;
     t) tag="$OPTARG" ;;
+    m) component="$OPTARG" ;;
     k) purge_after_input="$OPTARG" ;;
     n) name_tag_create=true ;;
     h) hostname_tag_create=true ;;
